@@ -1,99 +1,166 @@
-Enum insurance_types {
-  oc
-  ac
+Enum "insurance_types" {
+  "OC"
+  "AC"
 }
 
-Enum employee_type {
-  diagnostic_employee
-  car_workshop_employee
-  automotive_employee
-  insurance_employee
+Enum "employee_type" {
+  "DIAGNOSTIC_EMPLOYEE"
+  "CAR_WORKSHOP_EMPLOYEE"
+  "AUTOMOTIVE_EMPLOYEE"
+  "INSURANCE_EMPLOYEE"
+  "MANAGER"
+  "ADMINISTRATOR"
 }
 
-Enum car_type {
-  sedan
-  coupe
-  sports_car
-  station_wagon
-  hatchback
-  convertible
-  suv
-  mpv
-  minivan
-  pickup_truck
-  crossover
-  van
+Enum "car_type" {
+  "SEDAN"
+  "COUPE"
+  "SPORTS_CAR"
+  "STATION_WAGON"
+  "HATCHBACK"
+  "CONVERTIBLE"
+  "SUV"
+  "MPV"
+  "MINIVAN"
+  "PICKUP_TRUCK"
+  "CROSSOVER"
+  "VAN"
 }
 
-Enum visit_type {
-  diagnostic
+Enum "visit_type" {
+  "MAINTENANCE"
+  "REPAIR"
 }
 
-Table insurance as i {
-  date_of_expiry datetime [pk]
-  //coverage
-  type insurance_types
+Enum "department_type" {
+  "REPAIR_STATION"
+  "DIAGNOSTIC_STATION"
+  "AUTOMOTIVE_SHOP"
 }
 
-Table diagnostic_profile as d_p {
-  engine varchar
-  body varchar
-  low_voltage varchar
-  lighting varchar
-  breakes varchar
-  sensors varchar
-  miscellaneous varchar
-  conditioning varchar
+Table "insurance" {
+  "date_of_expiry" timestamp [pk]
+  "coverage" numeric
+  "type" insurance_types
+  "car_id" int
 }
 
-Table employee as e {
-  type employee_type
+Table "diagnostic_profile" {
+  "profile_id" int [pk, increment]
+  "car_id" int
+  "visit_id" int
+  "employee_id" int
+  "engine" varchar
+  "body" varchar
+  "low_voltage" varchar
+  "lighting" varchar
+  "breakes" varchar
+  "sensors" varchar
+  "miscellaneous" varchar
+  "conditioning" varchar
 }
 
-Table car as c {
-  carId int [pk, increment]
-  model varchar
-  brand varchar
-  type car_type
+Table "diagnostic_profile_employee" {
+  "employee_id" int
+  "profile_id" int
 }
 
-Table visit as v {
-  visitId int [pk, increment]
-  date_of_visit datetime
-  price numeric
-  type visit_type
+Table "employee" {
+  "employee_id" int [pk, increment]
+  "department_id" int
+  "type" employee_type
 }
 
-Table action as a {
-  visitId int
-  action_desc varchar
-  price numeric
+Table "car" {
+  "car_id" int [pk, increment]
+  "model" varchar
+  "brand" varchar
+  "type" car_type
 }
 
-Table client {
-  clientId int [pk, increment]
-  name varchar
-  surname varchar
-  phone_number varchar
+Table "visit" {
+  "visit_id" int [pk, increment]
+  "employee_id" int
+  "client_id" int
+  "car_id" int
+  "date_of_visit" timestamp
+  "price" numeric
+  "type" visit_type
 }
 
-Table workshop {
-  shopId int [pk, increment]
-  location varchar //will be changed to PostGIS
+Table "action" {
+  "visit_id" int
+  "action_desc" varchar
+  "price" numeric
 }
 
-Table department {
-  departmentId int [pk, increment]
-  location varchar //will be changed to PostGIS
+Table "client" {
+  "client_id" int [pk, increment]
+  "car_id" int
+  "name" varchar
+  "surname" varchar
+  "phone_number" varchar
 }
 
-Table department_equipment {
-  departmentId int 
-  equipment varchar
+Table "workshop" {
+  "workshop_id" int [pk, increment]
+  "managed_by_department" int
+  "type" department_type
+  "latitude" float8
+  "longitude" float8
 }
 
-Table item {
-  id int [pk, increment]
-  departmentId int
-  quantity numeric
+Table "department" {
+  "department_id" int [pk, increment]
+  "manager_id" int
+  "admin_id" int
+  "latitude" float8
+  "longitude" float8
 }
+
+Table "department_equipment" {
+  "department_id" int
+  "equipment" varchar
+  "quantity" numeric
+}
+
+Table "item" {
+  "id" int [unique, pk, increment]
+  "department_id" int
+  "name" varchar
+  "quantity" numeric
+}
+
+Ref:"car"."car_id" < "insurance"."car_id"
+
+Ref:"car"."car_id" < "diagnostic_profile"."car_id"
+
+Ref:"visit"."visit_id" < "diagnostic_profile"."visit_id"
+
+Ref:"employee"."employee_id" < "diagnostic_profile"."employee_id"
+
+Ref:"employee"."employee_id" < "diagnostic_profile_employee"."employee_id"
+
+Ref:"diagnostic_profile"."profile_id" < "diagnostic_profile_employee"."profile_id"
+
+Ref:"department"."department_id" < "employee"."department_id"
+
+Ref:"employee"."employee_id" < "visit"."employee_id"
+
+Ref:"client"."client_id" < "visit"."client_id"
+
+Ref:"car"."car_id" < "visit"."car_id"
+
+Ref:"visit"."visit_id" < "action"."visit_id"
+
+Ref:"department"."department_id" < "workshop"."managed_by_department"
+
+Ref:"employee"."employee_id" < "department"."manager_id"
+
+Ref:"employee"."employee_id" < "department"."admin_id"
+
+Ref:"department"."department_id" < "department_equipment"."department_id"
+
+Ref:"department"."department_id" < "item"."department_id"
+
+Ref:"car"."car_id" < "client"."client_id"
