@@ -2,11 +2,14 @@ version: '3'
 services: 
         database:
                 image: "postgres"
+                container_name: postgres_workshop_db
                 environment: 
                         POSTGRES_USER: workshop_admin
                         POSTGRES_PASSWORD: se_not_magical_at_all
                         POSTGRES_DB: workshop_db
                 volumes: 
                         - database-data:/var/lib/postgresql/data/
+                ports:
+                        - "5432:5432"
 volumes: 
         database-data:

@@ -4,10 +4,6 @@ Enum "insurance_types" {
 }
 
 Enum "employee_type" {
-  "DIAGNOSTIC_EMPLOYEE"
-  "CAR_WORKSHOP_EMPLOYEE"
-  "AUTOMOTIVE_EMPLOYEE"
-  "INSURANCE_EMPLOYEE"
   "MANAGER"
   "ADMINISTRATOR"
 }
@@ -37,17 +33,16 @@ Enum "department_type" {
   "DIAGNOSTIC_STATION"
   "AUTOMOTIVE_SHOP"
 }
-
+//TODO
 Table "insurance" {
   "date_of_expiry" timestamp [pk]
   "coverage" numeric
   "type" insurance_types
-  "car_id" int
+  "car_id" int [pk] // from car
 }
 
 Table "diagnostic_profile" {
-  "profile_id" int [pk, increment]
-  "car_id" int
+  "car_id" int [pk] // from car
   "visit_id" int
   "employee_id" int
   "engine" varchar
@@ -61,18 +56,24 @@ Table "diagnostic_profile" {
 }
 
 Table "diagnostic_profile_employee" {
-  "employee_id" int
-  "profile_id" int
+  "employee_id" int [pk]
+  "profile_id" int [pk]
 }
 
 Table "employee" {
   "employee_id" int [pk, increment]
   "department_id" int
-  "type" employee_type
+  "type" employee_type //nullable
+}
+
+Table "employee_visit" {
+  "employee_id" int [pk]
+  "visit_id" int [pk]
 }
 
 Table "car" {
   "car_id" int [pk, increment]
+  "client_id" int 
   "model" varchar
   "brand" varchar
   "type" car_type
@@ -80,9 +81,8 @@ Table "car" {
 
 Table "visit" {
   "visit_id" int [pk, increment]
-  "employee_id" int
   "client_id" int
-  "car_id" int
+  "car_id" int //reference to diagnostic_profile
   "date_of_visit" timestamp
   "price" numeric
   "type" visit_type
@@ -91,12 +91,10 @@ Table "visit" {
 Table "action" {
   "visit_id" int
   "action_desc" varchar
-  "price" numeric
 }
 
 Table "client" {
   "client_id" int [pk, increment]
-  "car_id" int
   "name" varchar
   "surname" varchar
   "phone_number" varchar
@@ -112,8 +110,6 @@ Table "workshop" {
 
 Table "department" {
   "department_id" int [pk, increment]
-  "manager_id" int
-  "admin_id" int
   "latitude" float8
   "longitude" float8
 }
@@ -134,8 +130,6 @@ Table "item" {
 Ref:"car"."car_id" < "insurance"."car_id"
 
 Ref:"car"."car_id" < "diagnostic_profile"."car_id"
-
-Ref:"visit"."visit_id" < "diagnostic_profile"."visit_id"
 
 Ref:"employee"."employee_id" < "diagnostic_profile"."employee_id"
 
