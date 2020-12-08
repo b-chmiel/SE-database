@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>a0d5d52a-8e28-4457-8e42-3f6c69e432f2</OriginalElement>
+  <nodes>
+    <node x="147.8587962962963" y="0.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.car</node>
+    <node x="237.0" y="374.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit</node>
+    <node x="945.2152777777778" y="710.5">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department_equipment</node>
+    <node x="239.0" y="171.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.client</node>
+    <node x="773.2152777777778" y="699.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.item</node>
+    <node x="144.12499999999994" y="710.5">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.action</node>
+    <node x="299.125" y="958.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile_employee</node>
+    <node x="299.125" y="611.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile</node>
+    <node x="48.0" y="182.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.insurance</node>
+    <node x="591.5671296296297" y="193.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee</node>
+    <node x="541.2152777777778" y="699.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.workshop</node>
+    <node x="776.150462962963" y="407.0">a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.item" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department">
+      <point x="0.0" y="-60.5" />
+      <point x="849.2152777777778" y="591.0" />
+      <point x="852.150462962963" y="591.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department_equipment" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department">
+      <point x="0.0" y="-49.0" />
+      <point x="1040.2152777777778" y="591.0" />
+      <point x="902.8171296296296" y="591.0" />
+      <point x="50.66666666666663" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.client">
+      <point x="0.0" y="-93.5" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.car">
+      <point x="-53.0" y="-93.5" />
+      <point x="263.5" y="354.0" />
+      <point x="228.5" y="354.0" />
+      <point x="228.5" y="151.0" />
+      <point x="214.7337962962963" y="151.0" />
+      <point x="13.375" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee">
+      <point x="53.0" y="-93.5" />
+      <point x="369.5" y="334.0" />
+      <point x="604.2337962962963" y="334.0" />
+      <point x="-63.33333333333337" y="49.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile_employee" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile">
+      <point x="-61.5" y="-38.0" />
+      <point x="360.625" y="933.0" />
+      <point x="386.125" y="933.0" />
+      <point x="0.0" y="148.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department">
+      <point x="63.33333333333337" y="49.5" />
+      <point x="730.900462962963" y="334.0" />
+      <point x="902.8171296296296" y="334.0" />
+      <point x="50.66666666666663" y="-60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.workshop" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department">
+      <point x="0.0" y="-60.5" />
+      <point x="647.2152777777778" y="591.0" />
+      <point x="801.4837962962963" y="591.0" />
+      <point x="-50.66666666666663" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.client" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.car">
+      <point x="0.0" y="-71.5" />
+      <point x="316.5" y="151.0" />
+      <point x="241.4837962962963" y="151.0" />
+      <point x="40.125" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee">
+      <point x="58.0" y="-148.5" />
+      <point x="444.125" y="591.0" />
+      <point x="449.9837962962963" y="591.0" />
+      <point x="449.9837962962963" y="344.0" />
+      <point x="629.5671296296297" y="344.0" />
+      <point x="-38.0" y="49.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.insurance" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.car">
+      <point x="0.0" y="-60.5" />
+      <point x="133.0" y="151.0" />
+      <point x="187.9837962962963" y="151.0" />
+      <point x="-13.375" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit">
+      <point x="0.0" y="-148.5" />
+      <point x="386.125" y="591.0" />
+      <point x="356.25" y="591.0" />
+      <point x="39.75" y="93.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.car">
+      <point x="-58.0" y="-148.5" />
+      <point x="328.125" y="581.0" />
+      <point x="37.5" y="581.0" />
+      <point x="37.5" y="141.0" />
+      <point x="161.2337962962963" y="141.0" />
+      <point x="-40.125" y="60.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.diagnostic_profile_employee" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee">
+      <point x="61.5" y="-38.0" />
+      <point x="483.625" y="933.0" />
+      <point x="530.7152777777778" y="933.0" />
+      <point x="530.7152777777778" y="354.0" />
+      <point x="654.900462962963" y="354.0" />
+      <point x="-12.666666666666629" y="49.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.action" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.visit">
+      <point x="0.0" y="-49.0" />
+      <point x="211.62499999999994" y="591.0" />
+      <point x="276.75" y="591.0" />
+      <point x="-39.75" y="93.5" />
+    </edge>
+    <edge source="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.department" target="a0d5d52a-8e28-4457-8e42-3f6c69e432f2.TABLE:workshop_db.public.employee">
+      <point x="-50.66666666666663" y="-60.5" />
+      <point x="801.4837962962963" y="354.0" />
+      <point x="680.2337962962963" y="354.0" />
+      <point x="12.666666666666629" y="49.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4497153700189753" x="562.1567051030529" y="526.3036256042551" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
