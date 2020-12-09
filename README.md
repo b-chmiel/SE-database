@@ -11,7 +11,7 @@ While in location of `docker-compose.yml` file invoke:
 
 ## Auto generated schema of database
 
-![schema](workshop_db@192.168.0.png)
+![schema](workshop_db.png)
 
 ## Disclamer
 

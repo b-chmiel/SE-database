@@ -55,6 +55,11 @@ CREATE TYPE "department_type" AS ENUM (
   'AUTOMOTIVE_SHOP'
 );
 
+CREATE TYPE "visit_status" AS ENUM (
+    'PENDING',
+    'DONE'
+);
+
 CREATE TABLE "insurance" (
   "date_of_expiry" timestamp,
   "coverage" numeric,
@@ -109,7 +114,9 @@ CREATE TABLE "visit" (
   "car_id" int,
   "date_of_visit" timestamp,
   "price" numeric,
-  "type" visit_type
+  "type" visit_type,
+  "status" visit_status
+
 );
 
 CREATE TABLE "action" (
@@ -132,10 +139,15 @@ CREATE TABLE "workshop" (
   "longitude" float8
 );
 
+CREATE TABLE "workshop_department" (
+  "workshop_id" int,
+  "department_id" int,
+  PRIMARY KEY (workshop_id, department_id)
+);
+
 CREATE TABLE "department" (
   "department_id" SERIAL PRIMARY KEY,
-  "latitude" float8,
-  "longitude" float8
+  "type" department_type
 );
 
 CREATE TABLE "department_equipment" (
@@ -180,3 +192,7 @@ ALTER TABLE "employee_visit" ADD FOREIGN KEY ("employee_id") REFERENCES "employe
 ALTER TABLE "employee_visit" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
 
 ALTER TABLE "car" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id");
+
+ALTER TABLE "workshop_department" ADD FOREIGN KEY ("workshop_id") REFERENCES "workshop" ("workshop_id");
+
+ALTER TABLE "workshop_department" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
