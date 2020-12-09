@@ -64,12 +64,12 @@ Table "diagnostic_profile" {
   "conditioning" varchar
 }
 
-Table "diagnostic_profile_employee" {
+Table "employee_car" {
   "employee_id" int
-  "profile_id" int
+  "car_id" int
 
 Indexes {
-  (employee_id, profile_id) [pk]
+  (employee_id, car_id) [pk]
 }
 }
 
@@ -120,7 +120,6 @@ Table "client" {
 
 Table "workshop" {
   "workshop_id" int [pk, increment]
-  "managed_by_department" int
   "type" department_type
   "latitude" float8
   "longitude" float8
@@ -161,7 +160,9 @@ Ref:"visit"."visit_id" < "diagnostic_profile"."visit_id"
 
 Ref:"employee"."employee_id" < "diagnostic_profile"."employee_id"
 
-Ref:"employee"."employee_id" < "diagnostic_profile_employee"."employee_id"
+Ref:"employee"."employee_id" < "employee_car"."employee_id"
+
+Ref:"diagnostic_profile"."car_id" < "employee_car"."car_id"
 
 Ref:"department"."department_id" < "employee"."department_id"
 
@@ -170,8 +171,6 @@ Ref:"client"."client_id" < "visit"."client_id"
 Ref:"diagnostic_profile"."car_id" < "visit"."car_id"
 
 Ref:"visit"."visit_id" < "action"."visit_id"
-
-Ref:"department"."department_id" < "workshop"."managed_by_department"
 
 Ref:"department"."department_id" < "department_equipment"."department_id"
 

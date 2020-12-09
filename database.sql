@@ -4,6 +4,7 @@ DROP TYPE IF EXISTS "department_type" CASCADE;
 DROP TYPE IF EXISTS "insurance_types" CASCADE;
 DROP TYPE IF EXISTS "visit_type" CASCADE;
 DROP TYPE IF EXISTS "car_type" CASCADE;
+DROP TYPE IF EXISTS "visit_status" CASCADE;
 
 DROP TABLE IF EXISTS "action" CASCADE;
 DROP TABLE IF EXISTS "car" CASCADE;
@@ -11,13 +12,14 @@ DROP TABLE IF EXISTS "client" CASCADE;
 DROP TABLE IF EXISTS "department" CASCADE;
 DROP TABLE IF EXISTS "department_equipment" CASCADE;
 DROP TABLE IF EXISTS "diagnostic_profile" CASCADE;
-DROP TABLE IF EXISTS "diagnostic_profile_employee" CASCADE;
 DROP TABLE IF EXISTS "employee" CASCADE;
 DROP TABLE IF EXISTS "insurance" CASCADE;
 DROP TABLE IF EXISTS "item" CASCADE;
 DROP TABLE IF EXISTS "visit" CASCADE;
 DROP TABLE IF EXISTS "workshop" CASCADE;
 DROP TABLE IF EXISTS "employee_visit" CASCADE;
+DROP TABLE IF EXISTS "employee_car" CASCADE;
+DROP TABLE IF EXISTS "workshop_department" CASCADE;
 
 CREATE TYPE "insurance_types" AS ENUM (
   'OC',
@@ -82,10 +84,10 @@ CREATE TABLE "diagnostic_profile" (
   "conditioning" varchar
 );
 
-CREATE TABLE "diagnostic_profile_employee" (
+CREATE TABLE "employee_car" (
   "employee_id" int,
-  "profile_id" int,
-  PRIMARY KEY (employee_id, profile_id)
+  "car_id" int,
+  PRIMARY KEY (employee_id, car_id)
 );
 
 CREATE TABLE "employee" (
@@ -116,7 +118,6 @@ CREATE TABLE "visit" (
   "price" numeric,
   "type" visit_type,
   "status" visit_status
-
 );
 
 CREATE TABLE "action" (
@@ -133,7 +134,6 @@ CREATE TABLE "client" (
 
 CREATE TABLE "workshop" (
   "workshop_id" SERIAL PRIMARY KEY,
-  "managed_by_department" int,
   "type" department_type,
   "latitude" float8,
   "longitude" float8
@@ -171,7 +171,9 @@ ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("visit_id") REFERENCES "visit"
 
 ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
 
-ALTER TABLE "diagnostic_profile_employee" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
+ALTER TABLE "employee_car" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
+
+ALTER TABLE "employee_car" ADD FOREIGN KEY ("car_id") REFERENCES "diagnostic_profile" ("car_id");
 
 ALTER TABLE "employee" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
 
@@ -180,8 +182,6 @@ ALTER TABLE "visit" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_i
 ALTER TABLE "visit" ADD FOREIGN KEY ("car_id") REFERENCES "diagnostic_profile" ("car_id");
 
 ALTER TABLE "action" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
-
-ALTER TABLE "workshop" ADD FOREIGN KEY ("managed_by_department") REFERENCES "department" ("department_id");
 
 ALTER TABLE "department_equipment" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
 
