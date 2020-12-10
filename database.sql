@@ -18,7 +18,6 @@ DROP TABLE IF EXISTS "item" CASCADE;
 DROP TABLE IF EXISTS "visit" CASCADE;
 DROP TABLE IF EXISTS "workshop" CASCADE;
 DROP TABLE IF EXISTS "employee_visit" CASCADE;
-DROP TABLE IF EXISTS "employee_car" CASCADE;
 DROP TABLE IF EXISTS "workshop_department" CASCADE;
 
 CREATE TYPE "insurance_types" AS ENUM (
@@ -73,7 +72,6 @@ CREATE TABLE "insurance" (
 CREATE TABLE "diagnostic_profile" (
   "car_id" int PRIMARY KEY,
   "visit_id" int,
-  "employee_id" int,
   "engine" varchar,
   "body" varchar,
   "low_voltage" varchar,
@@ -82,12 +80,6 @@ CREATE TABLE "diagnostic_profile" (
   "sensors" varchar,
   "miscellaneous" varchar,
   "conditioning" varchar
-);
-
-CREATE TABLE "employee_car" (
-  "employee_id" int,
-  "car_id" int,
-  PRIMARY KEY (employee_id, car_id)
 );
 
 CREATE TABLE "employee" (
@@ -112,7 +104,6 @@ CREATE TABLE "car" (
 
 CREATE TABLE "visit" (
   "visit_id" SERIAL PRIMARY KEY,
-  "client_id" int,
   "car_id" int,
   "date_of_visit" timestamp,
   "price" numeric,
@@ -122,7 +113,8 @@ CREATE TABLE "visit" (
 
 CREATE TABLE "action" (
   "visit_id" int,
-  "action_desc" varchar
+  "action_desc" varchar,
+  PRIMARY KEY (visit_id, action_desc)
 );
 
 CREATE TABLE "client" (
@@ -153,11 +145,12 @@ CREATE TABLE "department" (
 CREATE TABLE "department_equipment" (
   "department_id" int,
   "equipment" varchar,
-  "quantity" numeric
+  "quantity" numeric,
+  PRIMARY KEY (department_id, equipment)
 );
 
 CREATE TABLE "item" (
-  "id" SERIAL UNIQUE PRIMARY KEY,
+  "item_id" SERIAL UNIQUE PRIMARY KEY,
   "department_id" int,
   "name" varchar,
   "quantity" numeric
@@ -169,15 +162,7 @@ ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("car_id") REFERENCES "car" ("c
 
 ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
 
-ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
-
-ALTER TABLE "employee_car" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
-
-ALTER TABLE "employee_car" ADD FOREIGN KEY ("car_id") REFERENCES "diagnostic_profile" ("car_id");
-
 ALTER TABLE "employee" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
-
-ALTER TABLE "visit" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id");
 
 ALTER TABLE "visit" ADD FOREIGN KEY ("car_id") REFERENCES "diagnostic_profile" ("car_id");
 

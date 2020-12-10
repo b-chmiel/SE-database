@@ -53,7 +53,6 @@ Indexes {
 Table "diagnostic_profile" {
   "car_id" int [pk]
   "visit_id" int
-  "employee_id" int
   "engine" varchar
   "body" varchar
   "low_voltage" varchar
@@ -62,15 +61,6 @@ Table "diagnostic_profile" {
   "sensors" varchar
   "miscellaneous" varchar
   "conditioning" varchar
-}
-
-Table "employee_car" {
-  "employee_id" int
-  "car_id" int
-
-Indexes {
-  (employee_id, car_id) [pk]
-}
 }
 
 Table "employee" {
@@ -98,7 +88,6 @@ Table "car" {
 
 Table "visit" {
   "visit_id" int [pk, increment]
-  "client_id" int
   "car_id" int
   "date_of_visit" timestamp
   "price" numeric
@@ -109,6 +98,10 @@ Table "visit" {
 Table "action" {
   "visit_id" int
   "action_desc" varchar
+
+Indexes {
+  (visit_id, action_desc) [pk]
+}
 }
 
 Table "client" {
@@ -143,10 +136,14 @@ Table "department_equipment" {
   "department_id" int
   "equipment" varchar
   "quantity" numeric
+
+Indexes {
+  (department_id, equipment) [pk]
+}
 }
 
 Table "item" {
-  "id" int [unique, pk, increment]
+  "item_id" int [unique, pk, increment]
   "department_id" int
   "name" varchar
   "quantity" numeric
@@ -158,15 +155,7 @@ Ref:"car"."car_id" < "diagnostic_profile"."car_id"
 
 Ref:"visit"."visit_id" < "diagnostic_profile"."visit_id"
 
-Ref:"employee"."employee_id" < "diagnostic_profile"."employee_id"
-
-Ref:"employee"."employee_id" < "employee_car"."employee_id"
-
-Ref:"diagnostic_profile"."car_id" < "employee_car"."car_id"
-
 Ref:"department"."department_id" < "employee"."department_id"
-
-Ref:"client"."client_id" < "visit"."client_id"
 
 Ref:"diagnostic_profile"."car_id" < "visit"."car_id"
 
