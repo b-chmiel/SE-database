@@ -1,6 +1,6 @@
 DROP TYPE IF EXISTS "insurance_types" CASCADE;
 DROP TYPE IF EXISTS "employee_type" CASCADE;
-DROP TYPE IF EXISTS "department_type" CASCADE;
+DROP TYPE IF EXISTS "company_type" CASCADE;
 DROP TYPE IF EXISTS "insurance_types" CASCADE;
 DROP TYPE IF EXISTS "visit_type" CASCADE;
 DROP TYPE IF EXISTS "car_type" CASCADE;
@@ -9,16 +9,14 @@ DROP TYPE IF EXISTS "visit_status" CASCADE;
 DROP TABLE IF EXISTS "action" CASCADE;
 DROP TABLE IF EXISTS "car" CASCADE;
 DROP TABLE IF EXISTS "client" CASCADE;
-DROP TABLE IF EXISTS "department" CASCADE;
-DROP TABLE IF EXISTS "department_equipment" CASCADE;
+DROP TABLE IF EXISTS "company" CASCADE;
 DROP TABLE IF EXISTS "diagnostic_profile" CASCADE;
 DROP TABLE IF EXISTS "employee" CASCADE;
 DROP TABLE IF EXISTS "insurance" CASCADE;
-DROP TABLE IF EXISTS "item" CASCADE;
+DROP TABLE IF EXISTS "auto_part" CASCADE;
 DROP TABLE IF EXISTS "visit" CASCADE;
-DROP TABLE IF EXISTS "workshop" CASCADE;
 DROP TABLE IF EXISTS "employee_visit" CASCADE;
-DROP TABLE IF EXISTS "workshop_department" CASCADE;
+DROP TABLE IF EXISTS "payment" CASCADE;
 
 CREATE TYPE "insurance_types" AS ENUM (
   'OC',
@@ -50,15 +48,16 @@ CREATE TYPE "visit_type" AS ENUM (
   'REPAIR'
 );
 
-CREATE TYPE "department_type" AS ENUM (
+CREATE TYPE "company_type" AS ENUM (
   'REPAIR_STATION',
   'DIAGNOSTIC_STATION',
   'AUTOMOTIVE_SHOP'
 );
 
 CREATE TYPE "visit_status" AS ENUM (
-    'PENDING',
-    'DONE'
+    'AT_SERVICE',
+    'REPAIRED',
+    'CHECKED_IN'
 );
 
 CREATE TABLE "insurance" (
@@ -84,7 +83,7 @@ CREATE TABLE "diagnostic_profile" (
 
 CREATE TABLE "employee" (
   "employee_id" SERIAL PRIMARY KEY,
-  "department_id" int,
+  "company_id" int,
   "type" employee_type
 );
 
@@ -121,39 +120,32 @@ CREATE TABLE "client" (
   "client_id" SERIAL PRIMARY KEY,
   "name" varchar,
   "surname" varchar,
-  "phone_number" varchar
+  "phone_number" varchar,
+  "email" varchar,
+  "discount" numeric
 );
 
-CREATE TABLE "workshop" (
-  "workshop_id" SERIAL PRIMARY KEY,
-  "type" department_type,
+CREATE TABLE company (
+  "company_id" SERIAL PRIMARY KEY,
+  "type" company_type,
   "latitude" float8,
   "longitude" float8
 );
 
-CREATE TABLE "workshop_department" (
-  "workshop_id" int,
-  "department_id" int,
-  PRIMARY KEY (workshop_id, department_id)
+CREATE TABLE auto_part (
+  "part_id" SERIAL UNIQUE PRIMARY KEY,
+  "company_id" int,
+  "model" varchar,
+  "amount" numeric,
+  "price" numeric
 );
 
-CREATE TABLE "department" (
-  "department_id" SERIAL PRIMARY KEY,
-  "type" department_type
-);
-
-CREATE TABLE "department_equipment" (
-  "department_id" int,
-  "equipment" varchar,
-  "quantity" numeric,
-  PRIMARY KEY (department_id, equipment)
-);
-
-CREATE TABLE "item" (
-  "item_id" SERIAL UNIQUE PRIMARY KEY,
-  "department_id" int,
-  "name" varchar,
-  "quantity" numeric
+CREATE TABLE "payment" (
+    "visit_id" int PRIMARY KEY,
+    "employee_id" int,
+    "amount" numeric,
+    "advance" numeric,
+    "is_fulfilled" bool
 );
 
 ALTER TABLE "insurance" ADD FOREIGN KEY ("car_id") REFERENCES "car" ("car_id");
@@ -162,15 +154,13 @@ ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("car_id") REFERENCES "car" ("c
 
 ALTER TABLE "diagnostic_profile" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
 
-ALTER TABLE "employee" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
+ALTER TABLE "employee" ADD FOREIGN KEY ("company_id") REFERENCES company ("company_id");
 
 ALTER TABLE "visit" ADD FOREIGN KEY ("car_id") REFERENCES "diagnostic_profile" ("car_id");
 
 ALTER TABLE "action" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
 
-ALTER TABLE "department_equipment" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
-
-ALTER TABLE "item" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
+ALTER TABLE "auto_part" ADD FOREIGN KEY ("company_id") REFERENCES company ("company_id");
 
 ALTER TABLE "employee_visit" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
 
@@ -178,6 +168,7 @@ ALTER TABLE "employee_visit" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("v
 
 ALTER TABLE "car" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id");
 
-ALTER TABLE "workshop_department" ADD FOREIGN KEY ("workshop_id") REFERENCES "workshop" ("workshop_id");
+ALTER TABLE "payment" ADD FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id");
 
-ALTER TABLE "workshop_department" ADD FOREIGN KEY ("department_id") REFERENCES "department" ("department_id");
+ALTER TABLE "payment" ADD FOREIGN KEY ("visit_id") REFERENCES "visit" ("visit_id");
+
